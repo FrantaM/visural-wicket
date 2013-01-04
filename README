@@ -12,7 +12,7 @@ You can find official releases for download at:
   
 ## Build the project via Gradle
 
-  * download gradle and add the grade file to your classpath ( http://www.gradle.org/downloads e.g. 1.3 works)
-  * run "gradle build" to build the project
-  * run "gradle uploadArchives" to create the maven artifacts in "/temp/com/visural"
-  * or just run "gradle tasks" to get a list of all possible tasks.
+  * download gradle and add the gradle file to your classpath ( http://www.gradle.org/downloads e.g. 1.3 works)
+  * run "gradle tasks" to get a list of all possible tasks.
+  * use "gradle build" to build the project
+  * use "gradle uploadArchives" to create the maven artifacts into "/temp/com/visural" ( where /temp is the maven repository root )

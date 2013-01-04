@@ -20,29 +20,51 @@ subprojects {
      }
   }
   
+  configurations {
+        provided {
+            description = 'Dependencies needed for compile but are provided at runtime or not needed'
+            transitive = false
+            visible = false
+        }
+        compile.extendsFrom provided
+    }
+	
+	task sourcesJar(type: Jar, dependsOn:classes) {
+     classifier = 'sources'
+     from sourceSets.main.allSource
+} 
+artifacts {
+     archives sourcesJar
+} 
+  
   // remove this : 
   // 2 be compatible with the ant script, change default source location:
-  sourceSets{main{java{
-    srcDir 'src'
-  }}}
+  sourceSets{main{
+    java{
+      srcDir 'src'
+    }
+    resources {
+            srcDir 'src'
+    }
+  }}
 }
 
 project('visural-wicket') {
-     version = '6.0.0-SNAPSHOT'
+     version = '6.0.0-ALPHA1'
      group = 'com.visural'
      
      dependencies {
-        compile 'org.apache.wicket:wicket:6.4.0'
+        compile 'org.apache.wicket:wicket-core:6.4.0'
         compile 'org.apache.wicket:wicket-extensions:6.4.0'
         compile 'com.visural:visural-common:0.5.0'
-        compile 'javax.validation:validation-api:1.0.0.GA'
+        provided 'javax.validation:validation-api:1.0.0.GA'
         
         testCompile group: 'junit', name: 'junit', version: '4.+'
     }
 }
 
 project('visural-wicket-examples') {
-    version = '6.0.0-SNAPSHOT'
+    version = '6.0.0-ALPHA1'
     group = 'com.visural'
 	
     dependencies {

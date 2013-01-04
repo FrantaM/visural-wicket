@@ -30,6 +30,7 @@ import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptContentHeaderItem;
 import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -81,9 +82,9 @@ public class RichTextEditor<T> extends TextArea<T> implements ISecureEnableInsta
         super.renderHead(response);
         if (autoAddToHeader()) {
         	HeaderItem hdr;
-			response.render(JavaScriptReferenceHeaderItem.forReference(new NiceditIconsRef()));
+			response.render(JavaScriptReferenceHeaderItem.forReference(new NiceditJSRef()));
         }
-        response.render(JavaScriptContentHeaderItem.forScript(getInitJS(), "visural-richTextEditor-js-id"));
+        response.render(OnDomReadyHeaderItem.forScript(getInitJS()));
     }
 
 
