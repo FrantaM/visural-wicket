@@ -143,13 +143,13 @@ public class ConfirmerCommon implements Serializable {
 
 			@Override
 			public CharSequence getPrecondition(Component component) {
-				return null;
+				return getModalDisplayScript();
 			}
 
 			@Override
 			public CharSequence getBeforeSendHandler(Component component) {
 //				setOnClickJS(""+script);
-                return getModalDisplayScript();
+                return null;
 			}
 
 			@Override
