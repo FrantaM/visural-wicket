@@ -17,12 +17,13 @@
 
 package com.visural.wicket.component.dropdown;
 
-import org.apache.wicket.markup.html.border.MarkupComponentBorder;
+import org.apache.wicket.behavior.Behavior;
+
 
 /**
  * @version $Id: DropDownBorder.java 217 2010-09-30 23:57:10Z tibes80@gmail.com $
  * @author Richard Nichols
  */
-public class DropDownBorder extends MarkupComponentBorder {
+public class DropDownBorder extends Behavior {
     private static final long serialVersionUID = 1L;
 }

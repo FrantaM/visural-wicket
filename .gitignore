@@ -4,3 +4,6 @@
 /visural-wicket-examples/dist/
 /visural-wicket/dist/
 /visural-wicket/build/
+/.classpath
+/.project
+/.settings

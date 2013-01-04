@@ -27,7 +27,9 @@ import java.util.Set;
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.model.IModel;
 
 /**
@@ -194,9 +196,9 @@ public class BeautyTipBehavior extends Behavior {
     public void renderHead(Component component, IHeaderResponse response) {
         if (autoAddToHeader()) {
             new com.google.excanvas.ExCanvasHeaderContributor().renderHead(response);
-            response.renderJavaScriptReference(new BeautyTipsJSRef());
+            response.render(JavaScriptReferenceHeaderItem.forReference(new BeautyTipsJSRef()));
         }
-        response.renderOnDomReadyJavaScript(getJS());
+        response.render(OnDomReadyHeaderItem.forScript(getJS()));
     }
 
     private String getJS() {

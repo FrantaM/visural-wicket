@@ -36,14 +36,16 @@ import com.visural.wicket.examples.tabs.TabsExamplePage;
 import com.visural.wicket.examples.vieworedit.ViewOrEditPage;
 import com.visural.wicket.util.PageParamFactory;
 import java.io.File;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
-import org.apache.wicket.markup.html.IHeaderResponse;
+
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.PackageResourceReference;
 
@@ -57,7 +59,8 @@ public abstract class BasePage extends WebPage {
     public static final boolean IS_PROD_MODE = new File("/tmp").exists(); // generally run on a linux host for net deploy
 
     public BasePage() {
-        add(new WebMarkupContainer("jquery").add(new SimpleAttributeModifier("src", urlFor(new JQueryResourceReference(Version.V1_6_3), new PageParameters()))));
+    	String url = urlFor(new JQueryResourceReference(Version.V1_6_3), new PageParameters()).toString();
+        add(new WebMarkupContainer("jquery").add(AttributeModifier.replace("src", Model.of(url))));
         add(new Label("pageTitle", new PageTitleModel(false)));
         add(new Label("pageTitleHeader", new PageTitleModel(true)).setEscapeModelStrings(false));
         add(new BookmarkablePageLink("tabsLink", TabsExamplePage.class));
@@ -91,9 +94,9 @@ public abstract class BasePage extends WebPage {
     }
 
     @Override
-    public void renderHead(IHeaderResponse response) {
+    public void renderHead(org.apache.wicket.markup.head.IHeaderResponse response) {
         super.renderHead(response);
-        response.renderCSSReference(new PackageResourceReference(BasePage.class, "style.css"));
+        response.render(CssHeaderItem.forReference(new PackageResourceReference(BasePage.class, "style.css")));
     }
 
     private String getSourcePath() {

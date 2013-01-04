@@ -67,7 +67,7 @@ public class IndicateModalSubmitLink extends SubmitLink implements IndicateModal
     @Override
     protected void onComponentTag(ComponentTag tag) {
         super.onComponentTag(tag);
-        CharSequence parentLink = tag.getString("onclick");
+        CharSequence parentLink = tag.getAttribute("onclick");
         tag.put("onclick", common.getModalDisplayScript()+parentLink);
     }
 

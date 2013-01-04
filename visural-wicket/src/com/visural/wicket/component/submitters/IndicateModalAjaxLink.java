@@ -16,13 +16,17 @@
  */
 package com.visural.wicket.component.submitters;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.attributes.AjaxCallListener;
+import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
+import org.apache.wicket.ajax.attributes.IAjaxCallListener;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+
 import com.visural.wicket.component.submitters.impl.IndicateModalAsyncComponent;
 import com.visural.wicket.component.submitters.impl.IndicateModalCommon;
 import com.visural.wicket.security.IPrivilege;
 import com.visural.wicket.security.ISecureEnableInstance;
 import com.visural.wicket.security.ISecureRenderInstance;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 
 /**
  * An AJAX `Link` which displays a modal dialog indicating work-in-progress, while the update occurs. *Requires JQuery*
@@ -83,10 +87,12 @@ public abstract class IndicateModalAjaxLink extends AjaxLink implements Indicate
     public String getTimeoutHTML() {
         return common.getDefaultTimeoutHTML();
     }
-
+    
     @Override
-    protected IAjaxCallDecorator getAjaxCallDecorator() {
-        return common.getAjaxCallDecorator();
+    protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
+        super.updateAjaxAttributes(attributes);
+        IAjaxCallListener myAjaxCallListener = common.getAjaxCallDecorator();
+        attributes.getAjaxCallListeners().add(myAjaxCallListener);
     }
 
     public IPrivilege getRenderPrivilege() {

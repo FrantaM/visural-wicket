@@ -64,7 +64,7 @@ public abstract class ConfirmerLink extends Link implements ConfirmerComponent, 
     protected void onComponentTag(ComponentTag tag) {
         super.onComponentTag(tag);
         if (isDisplayConfirmation()) {
-            String parentLink = "window.location.href='"+tag.getString("href")+"';";
+            String parentLink = "window.location.href='"+tag.getAttribute("href")+"';";
             common.setOnClickJS(parentLink);
             tag.put("onclick", common.getModalDisplayScript()+" return false;");
         }

@@ -17,10 +17,12 @@
 package com.visural.wicket.behavior.jsr303;
 
 import java.lang.annotation.Annotation;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.behavior.Behavior;
@@ -28,13 +30,11 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.model.AbstractPropertyModel;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
-import org.apache.wicket.validation.validator.MaximumValidator;
-import org.apache.wicket.validation.validator.MinimumValidator;
 import org.apache.wicket.validation.validator.PatternValidator;
 import org.apache.wicket.validation.validator.RangeValidator;
-import org.apache.wicket.validation.validator.StringValidator.LengthBetweenValidator;
-import org.apache.wicket.validation.validator.StringValidator.MaximumLengthValidator;
-import org.apache.wicket.validation.validator.StringValidator.MinimumLengthValidator;
+import org.apache.wicket.validation.validator.StringValidator;
+
+import com.sun.org.apache.xml.internal.utils.StringVector;
 
 /**
  * Looks at the bound component(s) models to see if they are any type of property model.
@@ -128,11 +128,11 @@ public class JSR303AnnotatedPropertyModelBehavior extends Behavior {
 
     protected IValidator newSizeValidator(int min, int max) {
         if (min == 0) {
-            return new MaximumLengthValidator(max);
+            return StringValidator.maximumLength(max);
         } else if (max == 2147483647) {
-            return new MinimumLengthValidator(min);
+            return StringValidator.maximumLength(min);
         } else {
-            return new LengthBetweenValidator(min, max);
+            return StringValidator.lengthBetween(min, max);
         }
     }
 
@@ -144,9 +144,9 @@ public class JSR303AnnotatedPropertyModelBehavior extends Behavior {
         if (min != null && max != null) {
             return new RangeValidator(min, max);
         } else if (min != null) {
-            return new MinimumValidator(min);
+            return StringValidator.minimumLength(min.intValue());
         } else if (max != null) {
-            return new MaximumValidator(max);
+            return StringValidator.maximumLength(max.intValue());
         }
         return null;
     }

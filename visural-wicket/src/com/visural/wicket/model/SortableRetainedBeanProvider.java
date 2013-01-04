@@ -29,21 +29,25 @@ import org.apache.wicket.model.IModel;
  * @version $Id: SortableRetainedBeanProvider.java 256 2011-02-05 12:06:02Z tibes80@gmail.com $
  * @author Richard Nichols
  */
-public class SortableRetainedBeanProvider<T> extends SortableDataProvider<T> {
+public class SortableRetainedBeanProvider<T,S> extends SortableDataProvider<T,S> {
 
     // TODO: implement.
     public SortableRetainedBeanProvider() {
     }
 
-    public Iterator<? extends T> iterator(int arg0, int arg1) {
+    @Override
+    public Iterator<? extends T> iterator(long first, long count) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public int size() {
+    @Override
+    public long size() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public IModel<T> model(T arg0) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
 }

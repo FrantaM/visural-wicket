@@ -30,7 +30,10 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 
 /**
  * Light-weight date input component.
@@ -70,10 +73,10 @@ public class DateInputBehavior extends Behavior {
     @Override
     public void renderHead(Component com, IHeaderResponse response) {
         if (autoAddToHeader()) {
-            response.renderCSSReference(new DateInputCSSRef());
-            response.renderJavaScriptReference(new DateInputJSRef());
+        	response.render(CssHeaderItem.forReference(new DateInputCSSRef()));
+        	response.render(JavaScriptReferenceHeaderItem.forReference(new DateInputJSRef()));
         }
-        response.renderOnDomReadyJavaScript(getJS());
+        response.render(OnDomReadyHeaderItem.forScript(getJS()));
     }
 
     private String getJS() {
@@ -210,53 +213,53 @@ jQuery(function() {
 });
 Customisation
 
-There is support for simple customisation without completely bloating the plugin. This works by letting you specify options when you call jQuery(el).date_input({my: opts}). The options essentially replace keys in the DateInput.prototype object so you can replace any internal method like this if you want. However, there are a few “recommended” customisations you can make and I can’t promise that other customisations won’t break in future versions.
+There is support for simple customisation without completely bloating the plugin. This works by letting you specify options when you call jQuery(el).date_input({my: opts}). The options essentially replace keys in the DateInput.prototype object so you can replace any internal method like this if you want. However, there are a few â€œrecommendedâ€� customisations you can make and I canâ€™t promise that other customisations wonâ€™t break in future versions.
 
 Instead of specifying options for every new date input, you can specify global defaults by overwriting or modifying DateInput.DEFAULT_OPTS. These will then be used automatically.
 
 Internationalisation
 
-The only strings used by Date Input are month names (January, February, etc..), short month names (Jan, Feb, etc…) and short day names (Sun, Mon, etc…). The usual way to specify a new language is to change the default options. For example the Spanish translation is:
+The only strings used by Date Input are month names (January, February, etc..), short month names (Jan, Feb, etcâ€¦) and short day names (Sun, Mon, etcâ€¦). The usual way to specify a new language is to change the default options. For example the Spanish translation is:
 
 jQuery.extend(DateInput.DEFAULT_OPTS, {
   month_names: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
   short_month_names: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-  short_day_names: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sab"]
+  short_day_names: ["Dom", "Lun", "Mar", "MiÃ©", "Jue", "Vie", "Sab"]
 });
-It’s recommended to place this in a separate file called (using the example of a Spanish translation) jquery.date_input.es_ES.js. The currently available translations are:
+Itâ€™s recommended to place this in a separate file called (using the example of a Spanish translation) jquery.date_input.es_ES.js. The currently available translations are:
 
 Bosnian, Bosnia and Herzegovina
 Bulgarian, Bulgaria
 Chinese, China
 Croatian, Croatia
-Czech, Czech Republic – Jiri Melcak
-Danish, Denmark – Jan Christensen
-Dutch, The Netherlands – Edwin Martin
-English, Great Britain – This is the default so there is no translation file
-Estonian, Estonia – Taimar Teetlok
-French, France – Jérôme TEISSEIRE
-German, Germany – Stefan Rado
+Czech, Czech Republic â€“ Jiri Melcak
+Danish, Denmark â€“ Jan Christensen
+Dutch, The Netherlands â€“ Edwin Martin
+English, Great Britain â€“ This is the default so there is no translation file
+Estonian, Estonia â€“ Taimar Teetlok
+French, France â€“ JÃ©rÃ´me TEISSEIRE
+German, Germany â€“ Stefan Rado
 Greek, Greece
 Hebrew, Israel
-Hungarian, Hungary – Horváth Balázs
+Hungarian, Hungary â€“ HorvÃ¡th BalÃ¡zs
 Indonesian, Indonesia
 Italian, Italy
 Norwegian, Norway
-Polish, Poland – Adam Kozubowicz
-Portuguese, Portugal – Jean Reis
-Romanian, Romania – Grigore Enescu Madalin
-Russian, Russia – Cyrill Udartcev
-Slovak, Slovakia – Erik Márföldi
-Spanish, Spain – Sebastian Romano
-Swedish, Sweden – Christian Jarhult
-Thai, Thailand – Tanongsak Yingpadungsab
+Polish, Poland â€“ Adam Kozubowicz
+Portuguese, Portugal â€“ Jean Reis
+Romanian, Romania â€“ Grigore Enescu Madalin
+Russian, Russia â€“ Cyrill Udartcev
+Slovak, Slovakia â€“ Erik MÃ¡rfÃ¶ldi
+Spanish, Spain â€“ Sebastian Romano
+Swedish, Sweden â€“ Christian Jarhult
+Thai, Thailand â€“ Tanongsak Yingpadungsab
 Turkish, Turkey
 Ukrainian, Ukraine
 If you have made a translation for a language not listed here, please see the section on contributing for instructions on how to get it uploaded.
 
 First day of the week
 
-The day names are listed from Sunday to Saturday, as this corresponds with JavaScript’s representation of days of the week being between 0 for Sunday and 6 for Saturday. The default first day of the week is 1 for Monday. You can change this in the options like so:
+The day names are listed from Sunday to Saturday, as this corresponds with JavaScriptâ€™s representation of days of the week being between 0 for Sunday and 6 for Saturday. The default first day of the week is 1 for Monday. You can change this in the options like so:
 
 jQuery(el).date_input({ start_of_week: 0 });
 or:

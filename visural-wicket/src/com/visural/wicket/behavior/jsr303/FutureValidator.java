@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import org.apache.wicket.validation.IValidatable;
+import org.apache.wicket.validation.IValidationError;
+import org.apache.wicket.validation.ValidationError;
 import org.apache.wicket.validation.validator.DateValidator;
 
 /**
@@ -36,28 +38,29 @@ public class FutureValidator extends DateValidator {
         this.format = format;
     }
 
-    @Override
-    protected Map<String, Object> variablesMap(IValidatable<Date> validatable) {
-        final Map<String, Object> map = super.variablesMap(validatable);
-        if (format == null) {
-            map.put("inputdate", validatable.getValue());
-        } else {
-            SimpleDateFormat sdf = new SimpleDateFormat(format);
-            map.put("inputdate", sdf.format(validatable.getValue()));
-        }
-        return map;
-    }
+//    @Override
+//    protected Map<String, Object> variablesMap(IValidatable<Date> validatable) {
+//        final Map<String, Object> map = super.variablesMap(validatable);
+//        if (format == null) {
+//            map.put("inputdate", validatable.getValue());
+//        } else {
+//            SimpleDateFormat sdf = new SimpleDateFormat(format);
+//            map.put("inputdate", sdf.format(validatable.getValue()));
+//        }
+//        return map;
+//    }
+
+//    @Override
+//    protected String resourceKey() {
+//        return "DateValidator.future";
+//    }
 
     @Override
-    protected String resourceKey() {
-        return "DateValidator.future";
-    }
-
-    @Override
-    protected void onValidate(IValidatable<Date> validatable) {
-        Date value = validatable.getValue();
+    public void validate(IValidatable<Date> validatable) {
+    	Date value = validatable.getValue();
         if (value.before(new Date())) {
-            error(validatable);
+        	IValidationError error= new ValidationError("Date is not in the future");
+			validatable.error(error);
         }
     }
 }

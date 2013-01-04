@@ -66,13 +66,13 @@ public class ConfirmersPage extends BasePage {
             add(new ConfirmerAjaxSubmitLink("refreshingAjax") {
                 @Override
                 protected void onError(AjaxRequestTarget target, Form<?> form) {
-                    target.addComponent(feedback);
+                    target.add(feedback);
                 }
 
                 @Override
                 protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                    target.addComponent(answerText);
-                    target.addComponent(feedback);
+                    target.add(answerText);
+                    target.add(feedback);
                 }
             });
 
@@ -82,9 +82,9 @@ public class ConfirmersPage extends BasePage {
                     xm.setNum((int)(Math.random()*200d-100d));
                     ym.setNum((int)(Math.random()*200d-100d));
                     answer = null;
-                    target.addComponent(x);
-                    target.addComponent(y);
-                    target.addComponent(answerText);
+                    target.add(x);
+                    target.add(y);
+                    target.add(answerText);
                 }
             });
         }

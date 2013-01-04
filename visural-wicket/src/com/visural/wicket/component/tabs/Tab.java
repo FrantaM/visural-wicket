@@ -16,12 +16,13 @@
  */
 package com.visural.wicket.component.tabs;
 
-import com.visural.wicket.security.IPrivilege;
-import com.visural.wicket.security.ISecureEnableInstance;
-import com.visural.wicket.security.ISecureRenderInstance;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
+
+import com.visural.wicket.security.IPrivilege;
+import com.visural.wicket.security.ISecureEnableInstance;
+import com.visural.wicket.security.ISecureRenderInstance;
 
 /**
  *

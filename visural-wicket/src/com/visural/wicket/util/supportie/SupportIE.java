@@ -17,9 +17,11 @@
 package com.visural.wicket.util.supportie;
 
 import java.util.Map;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.StringHeaderItem;
 
 /**
  * A collection of IE compatibility hacks.
@@ -51,8 +53,8 @@ public class SupportIE {
         return new Behavior() {
 
             @Override
-            public void renderHead(Component component, IHeaderResponse arg0) {
-                arg0.renderString(hdr);
+            public void renderHead(Component component, IHeaderResponse response) {
+            	response.render(StringHeaderItem.forString(hdr));
             }
         };
     }
@@ -82,8 +84,8 @@ public class SupportIE {
         return new Behavior() {
 
             @Override
-            public void renderHead(Component component, IHeaderResponse arg0) {
-                arg0.renderString(hdr);
+            public void renderHead(Component component, IHeaderResponse response) {
+            	response.render(StringHeaderItem.forString(hdr));
             }
         };
     }

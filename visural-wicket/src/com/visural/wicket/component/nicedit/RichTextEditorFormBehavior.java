@@ -33,8 +33,8 @@ public class RichTextEditorFormBehavior extends Behavior {
     @Override
     public void onComponentTag(Component component, ComponentTag tag) {
         super.onComponentTag(component, tag);
-        if (tag.getString("onsubmit") != null) {
-            tag.put("onsubmit", tag.getString("onsubmit")+";"+getRTEUpdateString());
+        if (tag.getAttribute("onsubmit") != null) {
+            tag.put("onsubmit", tag.getAttribute("onsubmit")+";"+getRTEUpdateString());
         } else {
             tag.put("onsubmit", getRTEUpdateString());
         }

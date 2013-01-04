@@ -51,8 +51,8 @@ public class InputHintFormBehavior extends Behavior {
     public void onComponentTag(Component component, ComponentTag tag) {
         super.onComponentTag(component, tag);
         String onSub = null;
-        if (tag.getString("onsubmit") != null) {
-            onSub = getIHJS()+";"+tag.getString("onsubmit");
+        if (tag.getAttribute("onsubmit") != null) {
+            onSub = getIHJS()+";"+tag.getAttribute("onsubmit");
         } else {
             onSub = getIHJS();
         }

@@ -18,7 +18,8 @@ package com.visural.wicket.component.submitters.impl;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 
 /**
  * @version $Id: ModalHeaderContributor.java 261 2011-03-08 20:53:16Z tibes80@gmail.com $
@@ -30,6 +31,6 @@ public class ModalHeaderContributor extends Behavior {
 
     @Override
     public void renderHead(Component component, IHeaderResponse response) {
-        response.renderOnDomReadyJavaScript("jQuery(document.body).append('<div id=\"visuraloverlay_high\"></div><div id=\"visuraloverlaycontent_high\"></div>');");
+    	response.render(OnDomReadyHeaderItem.forScript("jQuery(document.body).append('<div id=\"visuraloverlay_high\"></div><div id=\"visuraloverlaycontent_high\"></div>');"));
     }
 }

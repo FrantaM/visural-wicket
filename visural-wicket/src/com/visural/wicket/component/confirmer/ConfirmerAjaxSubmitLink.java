@@ -22,7 +22,9 @@ import com.visural.wicket.component.confirmer.impl.ConfirmerIcon;
 import com.visural.wicket.security.IPrivilege;
 import com.visural.wicket.security.ISecureEnableInstance;
 import com.visural.wicket.security.ISecureRenderInstance;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
+
+import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
+import org.apache.wicket.ajax.attributes.IAjaxCallListener;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.form.Form;
 
@@ -55,8 +57,13 @@ public abstract class ConfirmerAjaxSubmitLink extends AjaxSubmitLink implements 
     }
 
     @Override
-    protected final IAjaxCallDecorator getAjaxCallDecorator() {
-        return (isDisplayConfirmation() ? common.getAjaxCallDecorator() : super.getAjaxCallDecorator());
+    protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
+    	super.updateAjaxAttributes(attributes);
+    	
+    	if(isDisplayConfirmation()) 
+    	{
+    		attributes.getAjaxCallListeners().add(common.getAjaxCallDecorator());
+    	}
     }
 
     /**

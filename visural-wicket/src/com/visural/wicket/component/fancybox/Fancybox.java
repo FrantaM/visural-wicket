@@ -28,7 +28,10 @@ import net.fancybox.FancyBoxCSSRef;
 import net.fancybox.FancyBoxJavascriptRef;
 import net.fancybox.JQueryMouseWheelJSRef;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
@@ -182,15 +185,15 @@ public class Fancybox extends WebMarkupContainer implements ISecureEnableInstanc
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
         if (autoAddToHeader()) {
-            response.renderJavaScriptReference(new FancyBoxJavascriptRef());
+        	response.render(JavaScriptReferenceHeaderItem.forReference(new FancyBoxJavascriptRef()));
             if (isMouseWheelEnabled()) {
-                response.renderJavaScriptReference(new JQueryMouseWheelJSRef());
+            	response.render(JavaScriptReferenceHeaderItem.forReference(new JQueryMouseWheelJSRef()));
             }
-            response.renderCSSReference(new FancyBoxCSSRef());
+            response.render(CssHeaderItem.forReference(new FancyBoxCSSRef()));
         }
         String js = getFancyBoxJS();
         if (js != null) {
-            response.renderOnDomReadyJavaScript(js);
+        	response.render(OnDomReadyHeaderItem.forScript(js));
         }
     }
 

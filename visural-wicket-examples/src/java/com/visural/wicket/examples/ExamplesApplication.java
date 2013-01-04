@@ -39,7 +39,7 @@ public class ExamplesApplication extends WebApplication {
             throw new IllegalStateException("Failed mounting URLs.", ex);
         }
         getResourceSettings().setResourcePollFrequency(null);
-        getResourceSettings().setResourceStreamLocator(new LessCSSResourceStreamLocator(getResourceFinder()));
+        getResourceSettings().setResourceStreamLocator(new LessCSSResourceStreamLocator());
         getDebugSettings().setOutputComponentPath(true);
     }
 //

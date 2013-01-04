@@ -16,15 +16,19 @@
  */
 package com.visural.wicket.behavior.inputhint;
 
-import com.visural.common.StringUtil;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.request.resource.PackageResourceReference;
+
+import com.visural.common.StringUtil;
 
 /**
  * Provides "hint text" inside `<input ...>` components similar to HTML5's
@@ -69,10 +73,10 @@ public class InputHintBehavior extends Behavior {
     @Override
     public void renderHead(Component component, IHeaderResponse response) {
         if (autoAddToHeader()) {
-            response.renderJavaScriptReference(new PackageResourceReference(InputHintBehavior.class, "visural-inputhint.js"));
+        	response.render(JavaScriptReferenceHeaderItem.forReference(new PackageResourceReference(InputHintBehavior.class, "visural-inputhint.js")));
         }
-        response.renderJavaScript(getInitJS(), null);
-        response.renderOnDomReadyJavaScript(getDomJS());
+        response.render(JavaScriptReferenceHeaderItem.forScript(getInitJS(), null));
+        response.render(OnDomReadyHeaderItem.forScript(getDomJS()));
     }
 
     private String getInitJS() {

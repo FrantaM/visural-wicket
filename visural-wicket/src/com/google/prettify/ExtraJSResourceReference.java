@@ -17,8 +17,9 @@
 
 package com.google.prettify;
 
-import com.visural.wicket.component.codebox.CodeBoxLanguage;
 import org.apache.wicket.request.resource.PackageResourceReference;
+
+import com.visural.wicket.component.codebox.CodeBoxLanguage;
 
 /**
  * @version $Id: PrettifyJSResourceReference.java 17 2009-11-15 04:56:30Z tibes80@gmail.com $

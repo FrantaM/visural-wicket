@@ -16,8 +16,9 @@
  */
 package com.google.excanvas;
 
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.StringHeaderItem;
 import org.apache.wicket.markup.html.IHeaderContributor;
-import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -30,6 +31,6 @@ public class ExCanvasHeaderContributor implements IHeaderContributor {
     private static final long serialVersionUID = 1L;
 
     public void renderHead(IHeaderResponse ihr) {
-        ihr.renderString("<!--[if IE]><script src=\"" + RequestCycle.get().urlFor(new ExCanvasJSRef(), new PageParameters()) + "\"></script><![endif]-->");
+    	ihr.render(StringHeaderItem.forString("<!--[if IE]><script src=\"" + RequestCycle.get().urlFor(new ExCanvasJSRef(), new PageParameters()) + "\"></script><![endif]-->"));
     }
 }

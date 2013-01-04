@@ -16,18 +16,21 @@
  */
 package com.visural.wicket.component.submitters;
 
+import java.util.Collection;
+
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
+import org.apache.wicket.ajax.attributes.IAjaxCallListener;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.ResourceReference;
+
 import com.visural.wicket.component.submitters.impl.SmallAjaxIndicatorRef;
 import com.visural.wicket.security.IPrivilege;
 import com.visural.wicket.security.ISecureEnableInstance;
 import com.visural.wicket.security.ISecureRenderInstance;
-import java.util.Collection;
-import org.apache.wicket.Component;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
-import org.apache.wicket.ajax.calldecorator.AjaxCallDecorator;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.IHeaderResponse;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  * An AJAX `Link` which replaces the given elements with an indicator image, while the update occurs. *Requires JQuery*
@@ -48,7 +51,7 @@ public abstract class IndicateRefreshAjaxLink extends AjaxLink implements ISecur
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
-        response.renderOnDomReadyJavaScript("jQuery('<img />').attr('src', '" + urlFor(getRefreshIndicatorImageReference(), new PageParameters()) + "');");
+        response.render(OnDomReadyHeaderItem.forScript("jQuery('<img />').attr('src', '" + urlFor(getRefreshIndicatorImageReference(), new PageParameters()) + "');"));
     }
     
 
@@ -128,25 +131,51 @@ public abstract class IndicateRefreshAjaxLink extends AjaxLink implements ISecur
         }
         return result.toString();
     }
-
+    
     @Override
-    protected IAjaxCallDecorator getAjaxCallDecorator() {
-        return new AjaxCallDecorator() {
+    protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
+    	super.updateAjaxAttributes(attributes);
+    	
+    	attributes.getAjaxCallListeners().add(getAjaxCallDecorator());
+    }
 
-            @Override
-            public CharSequence decorateScript(Component c, CharSequence script) {
-                return getAjaxImageReplaceScript()+script;
-            }
+    protected IAjaxCallListener getAjaxCallDecorator() {
+        return new IAjaxCallListener() {
 
-            @Override
-            public CharSequence decorateOnSuccessScript(Component c, CharSequence script) {
-                return getAjaxImageUnreplaceScript();
-            }
+			@Override
+			public CharSequence getBeforeHandler(Component component) {
+				return null;
+			}
 
-            @Override
-            public CharSequence decorateOnFailureScript(Component c, CharSequence script) {
-                return getAjaxImageUnreplaceScript();
-            }
+			@Override
+			public CharSequence getPrecondition(Component component) {
+				return getAjaxImageReplaceScript();
+			}
+
+			@Override
+			public CharSequence getBeforeSendHandler(Component component) {
+				return null;
+			}
+
+			@Override
+			public CharSequence getAfterHandler(Component component) {
+				return null;
+			}
+
+			@Override
+			public CharSequence getSuccessHandler(Component component) {
+				return getAjaxImageUnreplaceScript();
+			}
+
+			@Override
+			public CharSequence getFailureHandler(Component component) {
+				return getAjaxImageUnreplaceScript();
+			}
+
+			@Override
+			public CharSequence getCompleteHandler(Component component) {
+				return null;
+			}
         };
     }
 

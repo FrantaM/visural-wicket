@@ -16,28 +16,33 @@
  */
 package com.visural.wicket.component.dropdown;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import org.apache.wicket.Application;
+import org.apache.wicket.Component;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.util.convert.ConversionException;
+import org.apache.wicket.util.convert.IConverter;
+
 import com.jquery.JQueryBGIFrameResourceReference;
 import com.visural.common.StringUtil;
 import com.visural.javascript.StringBufferResourceReference;
 import com.visural.wicket.security.IPrivilege;
 import com.visural.wicket.security.ISecureEnableInstance;
 import com.visural.wicket.security.ISecureRenderInstance;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import org.apache.wicket.Application;
-import org.apache.wicket.Component;
-import org.apache.wicket.request.resource.PackageResourceReference;
-import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.IHeaderResponse;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.request.resource.ResourceReference;
-import org.apache.wicket.util.convert.ConversionException;
-import org.apache.wicket.util.convert.IConverter;
 
 /**
  * DropDown is a form component which implements a rich-featured drop down (combo) box. *Requires JQuery*
@@ -158,16 +163,16 @@ public class DropDown<T> extends TextField<T> implements Serializable, ISecureEn
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
         if (autoAddToHeader()) {
-            response.renderJavaScriptReference(new PackageResourceReference(DropDown.class, "dropdown.js"));
-            response.renderJavaScriptReference(new StringBufferResourceReference());
-            response.renderCSSReference(getCSSHeaderContribution());
+        	response.render(JavaScriptReferenceHeaderItem.forReference(new PackageResourceReference(DropDown.class, "dropdown.js")));
+        	response.render(JavaScriptReferenceHeaderItem.forReference(new StringBufferResourceReference()));
+        	response.render(CssHeaderItem.forReference(getCSSHeaderContribution()));
             if (isSupportIE6()) {
-                response.renderJavaScriptReference(new JQueryBGIFrameResourceReference());
+            	response.render(JavaScriptReferenceHeaderItem.forReference(new JQueryBGIFrameResourceReference()));
             }
         }
         final String dsjs = DropDownDataSourceJSRender.getJS(source);
-        response.renderOnDomReadyJavaScript(dsjs);
-        response.renderOnDomReadyJavaScript(getInitJS());
+        response.render(OnDomReadyHeaderItem.forScript(dsjs));
+        response.render(OnDomReadyHeaderItem.forScript(getInitJS()));
     }
 
 

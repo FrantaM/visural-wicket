@@ -58,7 +58,7 @@ public class ConfirmerSubmitLink extends SubmitLink implements ConfirmerComponen
     protected void onComponentTag(ComponentTag tag) {
         super.onComponentTag(tag);
         if (isDisplayConfirmation()) {
-            String parentLink = ""+tag.getString("onclick");
+            String parentLink = ""+tag.getAttribute("onclick");
             common.setOnClickJS(parentLink);
             tag.put("onclick", common.getModalDisplayScript());
         }

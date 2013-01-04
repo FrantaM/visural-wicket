@@ -16,14 +16,16 @@
  */
 package com.visural.wicket.component.submitters;
 
+import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
+import org.apache.wicket.ajax.attributes.IAjaxCallListener;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.markup.html.form.Form;
+
 import com.visural.wicket.component.submitters.impl.IndicateModalAsyncComponent;
 import com.visural.wicket.component.submitters.impl.IndicateModalCommon;
 import com.visural.wicket.security.IPrivilege;
 import com.visural.wicket.security.ISecureEnableInstance;
 import com.visural.wicket.security.ISecureRenderInstance;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
-import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
-import org.apache.wicket.markup.html.form.Form;
 
 /**
  * An AJAX `SubmitLink` which displays a modal dialog indicating work-in-progress, while the update occurs. *Requires JQuery*
@@ -91,8 +93,10 @@ public abstract class IndicateModalAjaxSubmitLink extends AjaxSubmitLink impleme
     }
 
     @Override
-    protected IAjaxCallDecorator getAjaxCallDecorator() {
-        return common.getAjaxCallDecorator();
+    protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
+    	super.updateAjaxAttributes(attributes);
+    	
+    	attributes.getAjaxCallListeners().add(common.getAjaxCallDecorator());
     }
 
     public IPrivilege getRenderPrivilege() {

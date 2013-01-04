@@ -16,20 +16,24 @@
  */
 package com.visural.wicket.component.tabs;
 
-import com.visural.common.StringUtil;
-import com.visural.wicket.security.IPrivilege;
-import com.visural.wicket.security.ISecureEnableInstance;
-import com.visural.wicket.security.ISecureRenderInstance;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.request.resource.ResourceReference;
+
+import com.visural.common.StringUtil;
+import com.visural.wicket.security.IPrivilege;
+import com.visural.wicket.security.ISecureEnableInstance;
+import com.visural.wicket.security.ISecureRenderInstance;
 
 /**
  *
@@ -44,12 +48,12 @@ public class Tabs extends WebMarkupContainer implements ISecureEnableInstance, I
     public Tabs(String id) {
         super(id);
         setOutputMarkupId(true);
-        add(new SimpleAttributeModifier("class", "tab_contents"));
+        add(AttributeModifier.replace("class", "tab_contents"));
         add(new Behavior() {
 
             @Override
             public void renderHead(Component component, IHeaderResponse response) {
-                response.renderOnDomReadyJavaScript("if (jQuery('#"+Tabs.this.getMarkupId()+"_tabs').length == 0) { " +
+            	response.render(OnDomReadyHeaderItem.forScript("if (jQuery('#"+Tabs.this.getMarkupId()+"_tabs').length == 0) { " +
                         "var tempTabs = jQuery('#"+Tabs.this.getMarkupId()+"').clone();" +
                         "jQuery('"+tabsContainer().replace("'", "\\'")+"').insertAfter(jQuery('#"+Tabs.this.getMarkupId()+"'));" +
                         "jQuery('#"+Tabs.this.getMarkupId()+"').remove();" +
@@ -59,7 +63,7 @@ public class Tabs extends WebMarkupContainer implements ISecureEnableInstance, I
                         "jQuery('#"+Tabs.this.getMarkupId()+"_tabs').remove();" +
                         "jQuery('<div id=\""+getMarkupId()+"_tabs\">"+tabLinks().replace("'", "\\'")+"</div>').prependTo(jQuery('#"+getMarkupId()+"_border')); " +
                         "jQuery('#'+selId).trigger('click');" +
-                        "}");
+                        "}"));
             }
 
             private String tabsContainer() {
@@ -97,7 +101,7 @@ public class Tabs extends WebMarkupContainer implements ISecureEnableInstance, I
         super.renderHead(response);
         ResourceReference cssResource = getCSS();
         if (cssResource != null && autoAddToHeader()) {
-            response.renderCSSReference(cssResource);
+        	response.render(CssHeaderItem.forReference(cssResource));
         }
     }
 

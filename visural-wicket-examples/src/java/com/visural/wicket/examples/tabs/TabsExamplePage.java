@@ -43,7 +43,7 @@ public class TabsExamplePage extends BasePage {
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                target.addComponent(tabs);
+                target.add(tabs);
                 tab3.setVisible(!tab3.isVisible());
             }
 

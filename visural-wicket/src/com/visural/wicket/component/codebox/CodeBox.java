@@ -16,19 +16,24 @@
  */
 package com.visural.wicket.component.codebox;
 
+import java.io.Serializable;
+
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.MarkupStream;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
+import org.apache.wicket.markup.html.WebComponent;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+
 import com.google.prettify.ExtraJSResourceReference;
 import com.google.prettify.PrettifyCSSResourceReference;
 import com.google.prettify.PrettifyJSResourceReference;
 import com.visural.wicket.security.IPrivilege;
 import com.visural.wicket.security.ISecureEnableInstance;
 import com.visural.wicket.security.ISecureRenderInstance;
-import java.io.Serializable;
-import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.MarkupStream;
-import org.apache.wicket.markup.html.IHeaderResponse;
-import org.apache.wicket.markup.html.WebComponent;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 /**
  * A code block which does syntax highlighting of the code contents.
@@ -89,13 +94,13 @@ public class CodeBox extends WebComponent implements Serializable, ISecureEnable
     @Override
     public void renderHead(IHeaderResponse response) {
         if (autoAddToHeader()) {
-            response.renderCSSReference(new PrettifyCSSResourceReference());
-            response.renderJavaScriptReference(new PrettifyJSResourceReference());
+        	response.render(CssHeaderItem.forReference(new PrettifyCSSResourceReference()));
+        	response.render(JavaScriptReferenceHeaderItem.forReference(new PrettifyJSResourceReference()));
         }
         if (getLanguageOverride() != null && getLanguageOverride().getExtraJSfile() != null) {
-            response.renderJavaScriptReference(new ExtraJSResourceReference(getLanguageOverride()));
+        	response.render(JavaScriptReferenceHeaderItem.forReference(new ExtraJSResourceReference(getLanguageOverride())));
         }
-        response.renderOnDomReadyJavaScript("prettyPrint()");
+        response.render(OnDomReadyHeaderItem.forScript("prettyPrint()"));
     }
 
     @Override

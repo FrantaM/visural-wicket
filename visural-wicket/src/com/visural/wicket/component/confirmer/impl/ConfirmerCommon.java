@@ -16,18 +16,21 @@
  */
 package com.visural.wicket.component.confirmer.impl;
 
+import java.io.Serializable;
+
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.attributes.IAjaxCallListener;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.html.link.AbstractLink;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+
 import com.jquery.JQueryBGIFrameResourceReference;
 import com.visural.javascript.JQueryCenterResourceReference;
 import com.visural.wicket.component.submitters.impl.ModalCSSRef;
 import com.visural.wicket.component.submitters.impl.ModalHeaderContributor;
-import java.io.Serializable;
-import org.apache.wicket.Component;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
-import org.apache.wicket.ajax.calldecorator.AjaxCallDecorator;
-import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.html.IHeaderResponse;
-import org.apache.wicket.markup.html.link.AbstractLink;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * @version $Id: ConfirmerCommon.java 261 2011-03-08 20:53:16Z tibes80@gmail.com $
@@ -58,20 +61,20 @@ public class ConfirmerCommon implements Serializable {
             component.add(new Behavior() {
                 @Override
                 public void renderHead(Component component, IHeaderResponse response) {
-                    response.renderJavaScriptReference(new JQueryCenterResourceReference());
+                	response.render(JavaScriptReferenceHeaderItem.forReference(new JQueryCenterResourceReference()));
                 }
             });
             component.add(new Behavior() {
                 @Override
                 public void renderHead(Component component, IHeaderResponse response) {
-                    response.renderCSSReference(new ModalCSSRef());
+                	response.render(CssHeaderItem.forReference(new ModalCSSRef()));
                 }
             });
             if (com.isSupportIE6()) {
                 component.add(new Behavior() {
                     @Override
                     public void renderHead(Component component, IHeaderResponse response) {
-                        response.renderJavaScriptReference(new JQueryBGIFrameResourceReference());
+                    	response.render(JavaScriptReferenceHeaderItem.forReference(new JQueryBGIFrameResourceReference()));
                     }
                 });
             }
@@ -130,24 +133,44 @@ public class ConfirmerCommon implements Serializable {
         return result.toString();
     }
 
-    public IAjaxCallDecorator getAjaxCallDecorator() {
-        return new AjaxCallDecorator() {
+    public IAjaxCallListener getAjaxCallDecorator() {
+        return new IAjaxCallListener() {
 
-            @Override
-            public CharSequence decorateOnFailureScript(Component c, CharSequence script) {
-                return getModalCloseScript();
-            }
+			@Override
+			public CharSequence getBeforeHandler(Component component) {
+				return null;
+			}
 
-            @Override
-            public CharSequence decorateOnSuccessScript(Component c, CharSequence script) {
-                return getModalCloseScript();
-            }
+			@Override
+			public CharSequence getPrecondition(Component component) {
+				return null;
+			}
 
-            @Override
-            public CharSequence decorateScript(Component c, CharSequence script) {
-                setOnClickJS(""+script);
+			@Override
+			public CharSequence getBeforeSendHandler(Component component) {
+//				setOnClickJS(""+script);
                 return getModalDisplayScript();
-            }
+			}
+
+			@Override
+			public CharSequence getAfterHandler(Component component) {
+				return null;
+			}
+
+			@Override
+			public CharSequence getSuccessHandler(Component component) {
+				return getModalCloseScript();
+			}
+
+			@Override
+			public CharSequence getFailureHandler(Component component) {
+				return getModalCloseScript();
+			}
+
+			@Override
+			public CharSequence getCompleteHandler(Component component) {
+				return null;
+			}
         };
     }
 

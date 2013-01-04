@@ -26,7 +26,10 @@ import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 
 /**
@@ -51,7 +54,7 @@ public class Dialog extends WebMarkupContainer implements ISecureEnableInstance,
 
             @Override
             public void renderHead(Component component, IHeaderResponse response) {
-                response.renderOnDomReadyJavaScript(getJS());
+                response.render(OnDomReadyHeaderItem.forScript(getJS()));
             }
 
             private String getJS() {
@@ -82,10 +85,10 @@ public class Dialog extends WebMarkupContainer implements ISecureEnableInstance,
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
         if (autoAddToHeader()) {
-            response.renderJavaScriptReference(new JQueryCenterResourceReference());
-            response.renderCSSReference(new ModalCSSRef());
+        	response.render(JavaScriptReferenceHeaderItem.forReference(new JQueryCenterResourceReference()));
+            response.render(CssHeaderItem.forReference(new ModalCSSRef()));
             if (isSupportIE6()) {
-                response.renderJavaScriptReference(new JQueryBGIFrameResourceReference());
+            	response.render(JavaScriptReferenceHeaderItem.forReference(new JQueryBGIFrameResourceReference()));
             }
         }
     }

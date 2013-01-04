@@ -23,7 +23,9 @@ import com.visural.wicket.component.confirmer.impl.ConfirmerIcon;
 import com.visural.wicket.security.IPrivilege;
 import com.visural.wicket.security.ISecureEnableInstance;
 import com.visural.wicket.security.ISecureRenderInstance;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
+
+import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
+import org.apache.wicket.ajax.attributes.IAjaxCallListener;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 
 /**
@@ -61,10 +63,15 @@ public abstract class ConfirmerAjaxLink extends AjaxLink implements ConfirmerCom
     }
 
     @Override
-    protected final IAjaxCallDecorator getAjaxCallDecorator() {
-        return (isDisplayConfirmation() ? common.getAjaxCallDecorator() : super.getAjaxCallDecorator());
+    protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
+    	super.updateAjaxAttributes(attributes);
+    	
+    	if(isDisplayConfirmation()) 
+    	{
+    		attributes.getAjaxCallListeners().add(common.getAjaxCallDecorator());
+    	}
     }
-
+    
     /**
      * Override to disable the confirmation prompt in some situations (only at render time).
      */

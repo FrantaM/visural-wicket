@@ -16,18 +16,22 @@
  */
 package com.visural.wicket.component.submitters.impl;
 
-import com.jquery.JQueryBGIFrameResourceReference;
-import com.visural.javascript.JQueryCenterResourceReference;
-import com.visural.wicket.util.PageParamFactory;
 import java.io.Serializable;
+
 import org.apache.wicket.Component;
-import org.apache.wicket.ajax.IAjaxCallDecorator;
-import org.apache.wicket.ajax.calldecorator.AjaxCallDecorator;
+import org.apache.wicket.ajax.attributes.IAjaxCallListener;
 import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.link.AbstractLink;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
+
+import com.jquery.JQueryBGIFrameResourceReference;
+import com.visural.javascript.JQueryCenterResourceReference;
+import com.visural.wicket.util.PageParamFactory;
 
 /**
  * @version $Id: IndicateModalCommon.java 261 2011-03-08 20:53:16Z tibes80@gmail.com $
@@ -47,20 +51,20 @@ public class IndicateModalCommon implements Serializable {
             component.add(new Behavior() {
                 @Override
                 public void renderHead(Component component, IHeaderResponse response) {
-                    response.renderJavaScriptReference(new JQueryCenterResourceReference());
+                    response.render(JavaScriptReferenceHeaderItem.forReference(new JQueryCenterResourceReference()));
                 }
             });
             component.add(new Behavior() {
                 @Override
                 public void renderHead(Component component, IHeaderResponse response) {
-                    response.renderCSSReference(new ModalCSSRef());
+                    response.render(JavaScriptReferenceHeaderItem.forReference(new ModalCSSRef()));
                 }
             });
             if (com.isSupportIE6()) {
                 component.add(new Behavior() {
                     @Override
                     public void renderHead(Component component, IHeaderResponse response) {
-                        response.renderJavaScriptReference(new JQueryBGIFrameResourceReference());
+                    	response.render(JavaScriptReferenceHeaderItem.forReference(new JQueryBGIFrameResourceReference()));
                     }
                 });
             }
@@ -68,8 +72,8 @@ public class IndicateModalCommon implements Serializable {
         // preload image
         ((Component) com).add(new Behavior() {
             @Override
-            public void renderHead(Component component, IHeaderResponse arg0) {
-                arg0.renderOnDomReadyJavaScript("jQuery('<img />').attr('src', '" + component.urlFor(getIndicatorImage(), new PageParameters()) + "');");
+            public void renderHead(Component component, IHeaderResponse response) {
+            	response.render(OnDomReadyHeaderItem.forScript("jQuery('<img />').attr('src', '" + component.urlFor(getIndicatorImage(), new PageParameters()) + "');"));
             }
         });
     }
@@ -118,23 +122,43 @@ public class IndicateModalCommon implements Serializable {
         return result.toString();
     }
 
-    public IAjaxCallDecorator getAjaxCallDecorator() {
-        return new AjaxCallDecorator() {
+    public IAjaxCallListener getAjaxCallDecorator() {
+        return new IAjaxCallListener() {
 
-            @Override
-            public CharSequence decorateScript(Component c, CharSequence script) {
-                return getModalDisplayScript() + script;
-            }
+			@Override
+			public CharSequence getBeforeHandler(Component component) {
+				return null;
+			}
 
-            @Override
-            public CharSequence decorateOnSuccessScript(Component c, CharSequence script) {
-                return getModalCloseScript();
-            }
+			@Override
+			public CharSequence getPrecondition(Component component) {
+				return null;
+			}
 
-            @Override
-            public CharSequence decorateOnFailureScript(Component c, CharSequence script) {
-                return getModalCloseScript();
-            }
+			@Override
+			public CharSequence getBeforeSendHandler(Component component) {
+				return getModalDisplayScript();
+			}
+
+			@Override
+			public CharSequence getAfterHandler(Component component) {
+				return null;
+			}
+
+			@Override
+			public CharSequence getSuccessHandler(Component component) {
+				return getModalCloseScript();
+			}
+
+			@Override
+			public CharSequence getFailureHandler(Component component) {
+				return getModalCloseScript();
+			}
+
+			@Override
+			public CharSequence getCompleteHandler(Component component) {
+				return null;
+			}
         };
     }
 }
