@@ -1,0 +1,52 @@
+
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'eclipse'
+  apply plugin: 'maven'
+
+  sourceCompatibility = 1.5
+    
+  repositories {
+        mavenCentral()
+        mavenRepo urls: 'http://visural-common.googlecode.com/svn/trunk/visural-common/maven/'
+  }
+    
+  uploadArchives {
+        
+        repositories {
+           mavenDeployer {
+            repository(url: "file:///temp/")
+        }
+     }
+  }
+  
+  // remove this : 
+  // 2 be compatible with the ant script, change default source location:
+  sourceSets{main{java{
+    srcDir 'src'
+  }}}
+}
+
+project('visural-wicket') {
+     version = '6.0.0-SNAPSHOT'
+     group = 'com.visural'
+     
+     dependencies {
+        compile 'org.apache.wicket:wicket:6.4.0'
+        compile 'org.apache.wicket:wicket-extensions:6.4.0'
+        compile 'com.visural:visural-common:0.5.0'
+        compile 'javax.validation:validation-api:1.0.0.GA'
+        
+        testCompile group: 'junit', name: 'junit', version: '4.+'
+    }
+}
+
+project('visural-wicket-examples') {
+    version = '6.0.0-SNAPSHOT'
+    group = 'com.visural'
+	
+    dependencies {
+	    compile project(':visural-wicket')
+		compile 'org.hibernate:hibernate-validator:4.0.2.GA'
+	}
+}

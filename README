@@ -5,3 +5,14 @@ The main visural-wicket project page can be found at:
 You can find official releases for download at:
 
   * http://code.google.com/p/visural-wicket/downloads/list
+  
+## Build the project via ANT
+
+  * comming soon
+  
+## Build the project via Gradle
+
+  * download gradle and add the grade file to your classpath ( http://www.gradle.org/downloads e.g. 1.3 works)
+  * run "gradle build" to build the project
+  * run "gradle uploadArchives" to create the maven artifacts in "/temp/com/visural"
+  * or just run "gradle tasks" to get a list of all possible tasks.
