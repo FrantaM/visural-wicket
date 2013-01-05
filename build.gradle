@@ -4,7 +4,7 @@ subprojects {
   apply plugin: 'eclipse'
   apply plugin: 'maven'
 
-  sourceCompatibility = 1.5
+  sourceCompatibility = 1.6
     
   repositories {
         mavenCentral()
@@ -36,17 +36,7 @@ subprojects {
 artifacts {
      archives sourcesJar
 } 
-  
-  // remove this : 
-  // 2 be compatible with the ant script, change default source location:
-  sourceSets{main{
-    java{
-      srcDir 'src'
-    }
-    resources {
-            srcDir 'src'
-    }
-  }}
+
 }
 
 project('visural-wicket') {
@@ -61,6 +51,16 @@ project('visural-wicket') {
         
         testCompile group: 'junit', name: 'junit', version: '4.+'
     }
+	 // remove this : 
+  // 2 be compatible with the ant script, change default source location:
+  sourceSets{main{
+    java{
+      srcDir 'src'
+    }
+    resources {
+            srcDir 'src'
+    }
+  }}
 }
 
 project('visural-wicket-examples') {
@@ -71,4 +71,14 @@ project('visural-wicket-examples') {
 	    compile project(':visural-wicket')
 		compile 'org.hibernate:hibernate-validator:4.0.2.GA'
 	}
+	// remove this : 
+    // 2 be compatible with the ant script, change default source location:
+    sourceSets{main{
+	  java{
+	    srcDir 'src/java'
+	  }
+	  resources {
+	  		srcDir 'src/java'
+	  }
+    }}
 }
