@@ -1,12 +1,12 @@
 /*
  *  Copyright 2009 Richard Nichols.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *       http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ import org.apache.wicket.model.Model;
  * when the wrapped control is in "view mode".
  *
  * Apply to a containing DOM element, e.g. `<span></span>` or `<div></div>`
- * 
+ *
  * The component you provide to the constructor must be given as ID matching
  * `ViewOrEdit.COMP_ID`.
  *
@@ -47,13 +47,13 @@ import org.apache.wicket.model.Model;
  * non-editable elements are represented in text form, using the same wicket
  * page / form implementation.
  *
- * What is "view mode" for a given component is determined by the method 
+ * What is "view mode" for a given component is determined by the method
  * `isViewMode()`. The default implementation of this method uses the component
  * and its form's `isEnabled()` state to determine view or edit.
- * 
+ *
  * You may override this implementation and create any sort of complex logic you
  * wish for your specific use case.
- * 
+ *
  * The `ViewOrEdit` container automatically creates a dynamic wrapping model so
  * that you can still apply `CompoundPropertyModels` to your form and have them
  * apply to form elements wrapped in a `ViewOrEdit` container. Just name your
@@ -89,7 +89,7 @@ public class ViewOrEdit extends FormComponentPanel implements ISecureRenderInsta
     protected ViewOrEdit(final String id, final FormComponent component, IModel labelModel, final ComponentModelToLabel componentModelToLabel) {
         super(id);
         this.component = component;
-        
+
         if (labelModel == null && componentModelToLabel != null) {
             labelModel = new AbstractReadOnlyModel() {
 
@@ -133,7 +133,7 @@ public class ViewOrEdit extends FormComponentPanel implements ISecureRenderInsta
     }
 
     @Override
-    protected void convertInput() {
+    public void convertInput() {
         // this forces a call to initModel()
         getDefaultModel();
     }

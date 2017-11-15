@@ -19,6 +19,7 @@ package com.visural.wicket.component.submitters.impl;
 import java.io.Serializable;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.attributes.AjaxCallListener;
 import org.apache.wicket.ajax.attributes.IAjaxCallListener;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.head.CssHeaderItem;
@@ -123,7 +124,7 @@ public class IndicateModalCommon implements Serializable {
     }
 
     public IAjaxCallListener getAjaxCallDecorator() {
-        return new IAjaxCallListener() {
+        return new AjaxCallListener() {
 
 			@Override
 			public CharSequence getBeforeHandler(Component component) {

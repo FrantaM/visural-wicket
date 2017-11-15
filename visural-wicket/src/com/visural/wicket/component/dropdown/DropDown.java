@@ -76,8 +76,8 @@ import com.visural.wicket.security.ISecureRenderInstance;
  */
 public class DropDown<T> extends TextField<T> implements Serializable, ISecureEnableInstance, ISecureRenderInstance {
     private static final long serialVersionUID = 1L;
-    
-    private final boolean outputPath;    
+
+    private final boolean outputPath;
     private final DropDownDataSource source;
     private final boolean requireListValue;
     private String origMarkupId;
@@ -85,7 +85,7 @@ public class DropDown<T> extends TextField<T> implements Serializable, ISecureEn
     private boolean enableFilterToggle = true;
     private boolean showArrowIcon = true;
     private Integer overrideWidth = null;
-    
+
 
     public DropDown(String id, DropDownDataSource source, boolean requireListValue) {
         this(id, null, source, requireListValue);
@@ -94,12 +94,12 @@ public class DropDown<T> extends TextField<T> implements Serializable, ISecureEn
     public DropDown(String id, IModel<T> model, DropDownDataSource source, boolean requireListValue) {
         this(id, model, null, source, requireListValue);
     }
-    
+
     public DropDown(String id, IModel<T> model, Class<T> type, DropDownDataSource source, boolean requireListValue) {
         super(id, model, type);
         this.outputPath = Application.get().getDebugSettings().isOutputComponentPath();
-        
-        this.source = source;        
+
+        this.source = source;
         this.requireListValue = requireListValue;
     }
 
@@ -187,7 +187,7 @@ public class DropDown<T> extends TextField<T> implements Serializable, ISecureEn
     }
 
     @Override
-    protected void convertInput() {
+    public void convertInput() {
         if (!requireListValue) {
             super.convertInput();
         } else {
@@ -238,7 +238,7 @@ public class DropDown<T> extends TextField<T> implements Serializable, ISecureEn
             return converted;
         }
     }
-   
+
     private String getInitJS() {
         StringBuilder sb = new StringBuilder();
         sb.append("visural_dropdowns['").append(origMarkupId).append("'] = new VisuralDropDown('")

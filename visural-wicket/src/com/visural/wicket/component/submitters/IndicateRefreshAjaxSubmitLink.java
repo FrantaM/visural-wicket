@@ -1,12 +1,12 @@
 /*
  *  Copyright 2009 Richard Nichols.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *       http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
+import org.apache.wicket.ajax.attributes.AjaxCallListener;
 import org.apache.wicket.ajax.attributes.IAjaxCallListener;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.head.IHeaderResponse;
@@ -41,7 +42,7 @@ import com.visural.wicket.security.ISecureRenderInstance;
  */
 public abstract class IndicateRefreshAjaxSubmitLink extends AjaxSubmitLink implements ISecureRenderInstance, ISecureEnableInstance {
     private static final long serialVersionUID = 1L;
-    
+
     public static final int AJAX_SUBMIT_DELAY_WINDOW = 300;
 
     public IndicateRefreshAjaxSubmitLink(String id) {
@@ -91,7 +92,7 @@ public abstract class IndicateRefreshAjaxSubmitLink extends AjaxSubmitLink imple
      *
      * This method also would allow you to implement different indicators for
      * different page components should you need to.
-     * 
+     *
      * @return the html to be replaced for the given container component.
      */
     protected String getIndicatorHTML(Component container) {
@@ -141,9 +142,9 @@ public abstract class IndicateRefreshAjaxSubmitLink extends AjaxSubmitLink imple
     	super.updateAjaxAttributes(attributes);
    		attributes.getAjaxCallListeners().add(getAjaxCallDecorator());
     }
-    
+
     protected IAjaxCallListener getAjaxCallDecorator() {
-        return new IAjaxCallListener() {
+        return new AjaxCallListener() {
 
 			@Override
 			public CharSequence getBeforeHandler(Component component) {
